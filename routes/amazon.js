@@ -13,7 +13,7 @@ router.get('/test', function(req, res, next) {
 
 router.get('/image/:key',function(req,res,next){
     var params = {
-        Bucket: "mabaguette", 
+        Bucket: 'mabaguette', 
         Key: req.params.key
        };
     s3.getObject(params, function(err, data) {
@@ -24,7 +24,7 @@ router.get('/image/:key',function(req,res,next){
 
 router.get('/images',function(req,res,next){
     var params = {
-        Bucket: "mabaguette"
+        Bucket: 'mabaguette'
        };
        s3.listObjects(params, function(err, data) {
         if (err) console.log(err, err.stack);
@@ -33,11 +33,21 @@ router.get('/images',function(req,res,next){
 });
 
 router.post('/image',function(req,res,next){
-    reader.readAsDataURL();
     s3.putObject(req.body, function(err, data) {
         if (err) console.log(err, err.stack);
         else     res.send(res.statusCode);
     });
+});
+
+router.delete('/image/:key',function(req,res,next){
+    var params = {
+        Bucket: 'mabaguette', 
+        Key: req.params.key
+       };
+       s3.deleteObject(params, function(err, data) {
+         if (err) console.log(err, err.stack);
+         else     res.send(res.statusCode);
+       });
 });
 
 module.exports = router;
